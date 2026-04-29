@@ -14,11 +14,11 @@ export class MainPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    // Locators for navigation buttons
-    this.docsButton = page.getByRole('link', { name: /docs/i });
-    this.apiButton = page.getByRole('link', { name: /api/i });
-    this.communityButton = page.getByRole('link', { name: /community|discord|github/i });
-    this.cliButton = page.getByRole('link', { name: /cli/i });
+    // Locators for navigation buttons - using precise role and name selectors
+    this.docsButton = page.getByRole('link', { name: 'Docs' });
+    this.apiButton = page.getByRole('link', { name: 'API' });
+    this.communityButton = page.getByRole('link', { name: 'GitHub repository' }); // Specific community link
+    this.cliButton = page.locator("//a[text()='CLI']"); // Assuming CLI is a link with text 'CLI'
     this.navContainer = page.locator('nav, [role="navigation"]');
   }
 
@@ -33,7 +33,7 @@ export class MainPage extends BasePage {
    * Check if Docs button is visible
    */
   async isDocsButtonVisible(): Promise<boolean> {
-    return await this.docsButton.first().isVisible();
+    return await this.docsButton.isVisible();
   }
 
   /**
@@ -47,14 +47,14 @@ export class MainPage extends BasePage {
    * Check if Community button is visible
    */
   async isCommunityButtonVisible(): Promise<boolean> {
-    return await this.communityButton.first().isVisible();
+    return await this.communityButton.isVisible();
   }
 
   /**
-   * Check if Docs button is visible
+   * Check if CLI button is visible
    */
   async isCliButtonVisible(): Promise<boolean> {
-    return await this.cliButton.first().isVisible();
+    return await this.cliButton.isVisible();
   }
 
   /**
@@ -69,21 +69,25 @@ export class MainPage extends BasePage {
    * Click on Docs button
    */
   async clickDocsButton(): Promise<void> {
-    await this.click(this.docsButton.first());
+    await this.click(this.docsButton);
+    await this.page.waitForTimeout(3000); // Wait for navigation to complete
   }
 
   /**
    * Click on API button
    */
   async clickApiButton(): Promise<void> {
-    await this.click(this.apiButton.first());
+    await this.click(this.apiButton);
+    await this.page.waitForTimeout(3000); 
   }
 
   /**
    * Click on Community button
    */
   async clickCommunityButton(): Promise<void> {
-    await this.click(this.communityButton.first());
+    await this.click(this.communityButton);
+    await this.page.waitForTimeout(3000); 
+    
   }
 
   /**
@@ -93,7 +97,6 @@ export class MainPage extends BasePage {
     const docsVisible = await this.isDocsButtonVisible();
     const apiVisible = await this.isApiButtonVisible();
     const communityVisible = await this.isCommunityButtonVisible();
-
     return docsVisible && apiVisible && communityVisible;
   }
 
@@ -101,7 +104,7 @@ export class MainPage extends BasePage {
    * Get Docs button URL
    */
   async getDocsButtonUrl(): Promise<string | null> {
-    return await this.getAttribute(this.docsButton.first(), 'href');
+    return await this.getAttribute(this.docsButton, 'href');
   }
 
   /**
@@ -115,6 +118,6 @@ export class MainPage extends BasePage {
    * Get Community button URL
    */
   async getCommunityButtonUrl(): Promise<string | null> {
-    return await this.getAttribute(this.communityButton.first(), 'href');
+    return await this.getAttribute(this.communityButton, 'href');
   }
 }
