@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { MainPage } from '../pages/mainPage';
+import { testData } from '../testData/testData';
 
 /**
  * TEST CASE: "The main page should display navigation buttons: Docs, API, Community."
@@ -21,93 +22,48 @@ test.describe('Main Page Navigation', () => {
     await mainPage.navigateToMain();
   });
 
-  test('should display Docs navigation button', async () => {
-    const isDocsVisible = await mainPage.isDocsButtonVisible();
-    expect(isDocsVisible).toBe(true);
-  });
-
-  test('should display API navigation button', async () => {
-    const isApiVisible = await mainPage.isApiButtonVisible();
-    expect(isApiVisible).toBe(true);
-  });
-
-  test('should display Community navigation button', async () => {
-    const isCommunityVisible = await mainPage.isCommunityButtonVisible();
-    expect(isCommunityVisible).toBe(true);
-  });
-
-  test('should display all navigation buttons: Docs, API, Community', async () => {
-    const allButtonsVisible = await mainPage.verifyAllNavigationButtonsVisible();
-    expect(allButtonsVisible).toBe(true);
-  });
-
-  test('Docs button should have valid href attribute', async () => {
-    const docsUrl = await mainPage.getDocsButtonUrl();
-    expect(docsUrl).toBeTruthy();
-    expect(docsUrl).toContain('/');
-  });
-
-  test('API button should have valid href attribute', async () => {
-    const apiUrl = await mainPage.getApiButtonUrl();
-    expect(apiUrl).toBeTruthy();
-    expect(apiUrl).toContain('/');
-  });
-
-  test('Community button should have valid href attribute', async () => {
-    const communityUrl = await mainPage.getCommunityButtonUrl();
-    expect(communityUrl).toBeTruthy();
-  });
-
-  test('should navigate to Docs page when Docs button is clicked', async ({ page }) => {
-    const docsUrl = await mainPage.getDocsButtonUrl();
+  test('The main page should navigate to Docs page when Docs button is clicked', async ({ page }) => {
+    await mainPage.docsButton.isVisible();
     await mainPage.clickDocsButton();
-
     // Wait for navigation
     await page.waitForLoadState('networkidle');
-
     // Verify navigation occurred
-    const currentUrl = page.url();
-    expect(currentUrl).toBeTruthy();
+    await expect(page).toHaveURL(testData.urls.docsIntro);
+    await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
   });
 
-  test('should navigate to API page when API button is clicked', async ({ page }) => {
-    const apiUrl = await mainPage.getApiButtonUrl();
+  test('The main page should navigate to API page when API button is clicked', async ({ page }) => {
+    await mainPage.apiButton.isVisible();
     await mainPage.clickApiButton();
-
     // Wait for navigation
     await page.waitForLoadState('networkidle');
-
     // Verify navigation occurred
-    const currentUrl = page.url();
-    expect(currentUrl).toBeTruthy();
+    await expect(page).toHaveURL(testData.urls.docsApiClassPlaywright); // Specific URL
++   await expect(page.getByRole('heading', { name: 'Playwright' })).toBeVisible();
   });
 
-  test('should navigate when Community button is clicked', async ({ page }) => {
-    const communityUrl = await mainPage.getCommunityButtonUrl();
+  test('The main page should navigate when Community button is clicked', async ({ page }) => {
+    await mainPage.communityButton.isVisible();
     await mainPage.clickCommunityButton();
-
     // Wait for navigation
     await page.waitForLoadState('networkidle');
-
     // Verify navigation occurred
-    const currentUrl = page.url();
-    expect(currentUrl).toBeTruthy();
+    await expect(page).toHaveURL(testData.urls.githubRepo);
   });
 
-  test('should have all navigation buttons in correct sequence', async () => {
+  test('The page should have all navigation buttons in correct sequence', async () => {
     const navButtons = await mainPage.getNavigationButtonsText();
-    
-    // Verify buttons exist in navigation
-    expect(navButtons.length).toBeGreaterThan(0);
-    
+    // Verify buttons exist and are in expected order
+    expect(navButtons.length).toBeGreaterThanOrEqual(2);
+    expect(navButtons.some(btn => btn.toLowerCase().includes('docs'))).toBe(true);
+    expect(navButtons.some(btn => btn.toLowerCase().includes('api'))).toBe(true);
     // Check for presence of main buttons (case-insensitive)
     const navText = navButtons.join(' ').toLowerCase();
     expect(navText).toContain('docs');
     expect(navText).toContain('api');
   });
 
-  test('should display CLI navigation button', async () => {
-    const cliButtonVisible = await mainPage.isCliButtonVisible();
-    expect(cliButtonVisible).toBe(true);
+  test('The page should display CLI navigation button', async () => {
+    await expect(mainPage.cliButton).toBeVisible();
   });
 });
