@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
 import { BasePage } from './basePage';
 
 /**
@@ -119,5 +119,10 @@ export class MainPage extends BasePage {
    */
   async getCommunityButtonUrl(): Promise<string | null> {
     return await this.getAttribute(this.communityButton, 'href');
+  }
+
+  async verifyTheElementIsVisibleAndHasRole(locator: Locator, role: any): Promise<void> {
+    await expect(locator).toBeVisible();
+    await expect(locator).toHaveRole(role);
   }
 }
