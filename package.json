@@ -1,0 +1,17 @@
+{
+  "name": "playwright-pom-tests",
+  "version": "1.0.0",
+  "description": "Playwright tests using Page Object Model pattern",
+  "scripts": {
+    "test": "playwright test",
+    "test:chromium": "playwright test --project=chromium",
+    "test:debug": "playwright test --debug",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.46.1",
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  }
+}
