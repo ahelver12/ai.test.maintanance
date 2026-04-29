@@ -53,4 +53,8 @@ test.describe('Main Page Navigation', () => {
     expect(navText).toContain('docs');
     expect(navText).toContain('api');
   });
+
+  test('The page should display CLI navigation button', async () => {
+    await expect(mainPage.cliButton).toBeVisible();
+  });
 });
