@@ -1,5 +1,6 @@
-import { Page, Locator, expect } from '@playwright/test';
+import test, { Page, Locator, expect } from '@playwright/test';
 import { BasePage } from './basePage';
+import { testData } from '../testData/testData';
 
 /**
  * Main Navigation Page Object Model
@@ -26,7 +27,7 @@ export class MainPage extends BasePage {
    * Navigate to main page
    */
   async navigateToMain(): Promise<void> {
-    await this.goto('https://playwright.dev/');
+    await this.goto(testData.urls.baseUrl);
   }
 
   /**
@@ -86,8 +87,7 @@ export class MainPage extends BasePage {
    */
   async clickCommunityButton(): Promise<void> {
     await this.click(this.communityButton);
-    await this.page.waitForTimeout(3000); 
-    
+    await this.page.waitForTimeout(3000);     
   }
 
   /**
