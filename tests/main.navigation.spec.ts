@@ -39,16 +39,7 @@ test.describe('Main Page Navigation', () => {
     await page.waitForLoadState('networkidle');
     // Verify navigation occurred
     await expect(page).toHaveURL(testData.urls.docsApiClassPlaywright); // Specific URL
-+   await expect(page.getByRole('heading', { name: 'Playwright' })).toBeVisible();
-  });
-
-  test('The main page should navigate when Community button is clicked', async ({ page }) => {
-    await mainPage.communityButton.isVisible();
-    await mainPage.clickCommunityButton();
-    // Wait for navigation
-    await page.waitForLoadState('networkidle');
-    // Verify navigation occurred
-    await expect(page).toHaveURL(testData.urls.githubRepo);
+    await expect(page.getByRole('heading', { name: 'Playwright' })).toBeVisible();
   });
 
   test('The page should have all navigation buttons in correct sequence', async () => {

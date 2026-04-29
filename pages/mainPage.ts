@@ -87,8 +87,7 @@ export class MainPage extends BasePage {
    */
   async clickCommunityButton(): Promise<void> {
     await this.click(this.communityButton);
-    await this.page.waitForTimeout(3000); 
-    
+    await this.page.waitForTimeout(3000);     
   }
 
   /**
