@@ -2,6 +2,7 @@
 node_modules/
 package-lock.json
 yarn.lock
+.playwright-mcp/
 
 # Test Results
 test-results/
