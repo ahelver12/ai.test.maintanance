@@ -53,3 +53,10 @@ jobs:
           path: |
             test-results/**/trace*.zip
             playwright-report/**/trace*.zip
+      
+      - name: Notify Microsoft Teams on failure
+        if: failure()
+        run: |
+          curl -H "Content-Type: application/json" -d "{
+            \"text\": \"❌ Playwright Tests Failed\n\n**PR Title:** ${{ github.event.pull_request.title }}\n**Author:** ${{ github.event.pull_request.user.login }}\n**Branch:** ${{ github.event.pull_request.head.ref }}\n**Run:** https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\"
+          }" "${{ secrets.TEAMS_WEBHOOK_URL }}"

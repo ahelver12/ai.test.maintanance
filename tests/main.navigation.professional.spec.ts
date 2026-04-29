@@ -74,4 +74,10 @@ test.describe('Main Page Navigation', () => {
     await expect(mainPage.docsButton).not.toBeVisible(); // Button should be hidden
     // No navigation should occur if clicked, but since hidden, click would fail - test absence
   });
+
+    test('Failed test to check notifications', async ({ page }) => {
+    // test is made for testing purposes of notification if test fails in pipeline
+    await mainPage.clickApiButton();
+    await expect(page).toHaveURL(testData.urls.docsApiClassPlaywrightPath);
+  });
 });
